@@ -56,8 +56,10 @@ for (i = 0; i < 4; i++) {
 	} if (i == 3) {
 		selectWindow(temp +" #2");
 		close();
-		run("Merge Channels...", "c1=["+ temp +" #1] c3=[" + temp +" #3] create ignore");
+		run("Merge Channels...", "c1=["+ temp +" #1] c3=[" + temp +" #3] Composite create ignore");
+		selectImage("Composite");
 		run("RGB Color", "slices");
+		rename(names[i]);
 		run("8-bit");
 		break;
 	}
@@ -66,21 +68,25 @@ for (i = 0; i < 4; i++) {
 args = "c1=" + ch1;
 args += " c2=" + ch2;
 args += " c3=" + ch3;
-args += " c4=Composite create ignore";
+args += " c4=" + names[i] + " create ignore";
 run("Merge Channels...", args);
 rename(file_name + "_Composite");
 
 
 Stack.setXUnit("microns");
 
-args2 = "channels=4";
-args2 += " slices=" + (nSlices/4);
-args2 += " frames=1"
-args2 += " pixel_width=0.37742 pixel_height=0.37742 voxel_depth=0.7"
-run("Properties...", args2);
+
+// channel properties to edit below
+//args2 = "channels=4";
+//args2 += " slices=" + (nSlices/4);
+//args2 += " frames=1"
+//args2 += " pixel_width=0.37742 pixel_height=0.37742 voxel_depth=0.7"
+//run("Properties...", args2);
+//c3=[" + temp +" #3]
 
 
-// optional saving
+// optional saving parameters
+// remove the comment characters ('//') befor each line below to save outomatically
 //saveAs("Tiff", out_dir + File.separator + file_name + "_Composite");
 //File.makeDirectory(out_dir + File.separator + file_name);
 //
